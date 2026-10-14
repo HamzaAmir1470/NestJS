@@ -1,4 +1,9 @@
+import { IsInt } from 'class-validator/types/decorator/typechecker/IsInt.js';
+import { IsString } from 'class-validator/types/decorator/typechecker/IsString.js';
+
 export class CreateCustomerDto {
-    name: string;
-    age: number;
+  @IsString()
+  name: string;
+  @IsInt()
+  age: number;
 }
