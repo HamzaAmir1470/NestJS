@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { UserController } from './user/user.controller.js';
@@ -12,10 +12,22 @@ import { CustomerModule } from './customer/customer.module.js';
 import { MynameController } from './myname/myname.controller.js';
 import { UserRolesController } from './user-roles/user-roles.controller.js';
 import { ExceptionController } from './exception/exception.controller.js';
+import { LoggerMiddleware } from './middleware/logger/logger.middleware.js';
 
 @Module({
   imports: [EmployeeModule, CategoryModule, StudentModule, CustomerModule],
-  controllers: [AppController, UserController, ProductController, MynameController, UserRolesController, ExceptionController],
+  controllers: [
+    AppController,
+    UserController,
+    ProductController,
+    MynameController,
+    UserRolesController,
+    ExceptionController,
+  ],
   providers: [AppService, ProductService, CustomerService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
