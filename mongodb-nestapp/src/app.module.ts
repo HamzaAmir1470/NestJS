@@ -6,6 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 import { StudentModule } from './student/student.module.js';
 import { UserModule } from './user/user.module.js';
 import { EmployeeModule } from './employee/employee.module.js';
+import { ProductController } from './product/product.controller.js';
+import { ProductService } from './product/product.service.js';
+import { ProductModule } from './product/product.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -13,6 +16,7 @@ import { EmployeeModule } from './employee/employee.module.js';
     StudentModule,
     UserModule,
     EmployeeModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
