@@ -26,4 +26,30 @@ export class EmployeesService {
     }
     return employee;
   }
+
+  async update(
+    id: number,
+    updateData: Partial<Employee>,
+  ): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({ where: { id } });
+    if (!employee) {
+      throw new NotFoundException(`Employee with ID ${id} not found`);
+    }
+    const updatedEmployee = Object.assign(employee, updateData);
+    return this.employeeRepository.save(updatedEmployee);
+  }
+
+  async delete(
+    id: number,
+  ): Promise<{ message: string; employee: Employee | void }> {
+    const employee = await this.employeeRepository.findOne({ where: { id } });
+    if (!employee) {
+      throw new NotFoundException(`Employee with ID ${id} not found`);
+    }
+    await this.employeeRepository.remove(employee);
+    return {
+      message: `Employee with ${id} has been deleted successfully`,
+      employee,
+    };
+  }
 }
