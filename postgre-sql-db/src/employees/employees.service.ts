@@ -27,10 +27,7 @@ export class EmployeesService {
     return employee;
   }
 
-  async update(
-    id: number,
-    updateData: Partial<Employee>,
-  ): Promise<Employee> {
+  async update(id: number, updateData: Partial<Employee>): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({ where: { id } });
     if (!employee) {
       throw new NotFoundException(`Employee with ID ${id} not found`);
@@ -51,5 +48,23 @@ export class EmployeesService {
       message: `Employee with ${id} has been deleted successfully`,
       employee,
     };
+  }
+
+  async search(filters: {
+    name?: string;
+    department?: string;
+  }): Promise<Employee[]> {
+    const querry = this.employeeRepository.createQueryBuilder('employee');
+    if (filters.name) {
+      querry.andWhere('employee.name ILIKE :name', {
+        name: `%${filters.name}%`,
+      });
+    }
+    if (filters.department) {
+      querry.andWhere('employee.department :dept', {
+        department: `%${filters.department}%`,
+      });
+    }
+    return querry.getMany();
   }
 }

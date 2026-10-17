@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { Employee } from './employees.entity.js';
@@ -21,6 +22,14 @@ export class EmployeesController {
   @Get()
   async getAllEmployees(): Promise<Employee[]> {
     return this.employeeService.getAll();
+  }
+
+  @Get('search')
+  async searchEmployees(
+    @Query('name') name?: string,
+    @Query('department') department?: string,
+  ): Promise<Employee[]> {
+    return this.employeeService.search({ name, department });
   }
 
   @Get(':id')
