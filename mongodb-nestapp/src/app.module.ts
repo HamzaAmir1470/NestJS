@@ -10,6 +10,7 @@ import { ProductController } from './product/product.controller.js';
 import { ProductService } from './product/product.service.js';
 import { ProductModule } from './product/product.module.js';
 import { LibraryModule } from './library/library.module.js';
+import { ProjectModule } from './project/project.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +20,7 @@ import { LibraryModule } from './library/library.module.js';
     EmployeeModule,
     ProductModule,
     LibraryModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
