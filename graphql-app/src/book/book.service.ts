@@ -38,4 +38,12 @@ export class BookService {
 
     return updatedBook;
   }
+
+  async remove(id: string): Promise<Book> {
+    const deletedBook = await this.bookModel.findByIdAndDelete(id);
+    if (!deletedBook) {
+      throw new NotFoundException(`Book with ID ${id} not found`);
+    }
+    return deletedBook;
+  }
 }
